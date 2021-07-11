@@ -26,7 +26,7 @@ buttons = [addR, addL, addC]
 for button in buttons:
     button.SetFont(font)
 
-isParallel = Toggle(False)
+isParallel = Toggle(False, "Parallel Mode", (313, 560))
 
 while True:
     screen.fill((0, 0, 0))
@@ -34,19 +34,20 @@ while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
+
         if event.type == pg.MOUSEBUTTONDOWN:
             pos = pg.mouse.get_pos()
-            print(pos)
             for button in buttons:
                 if button.checkCollide(pos):
                     print("Collide with", button.text)
+
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_SPACE:
-                isParallel.toggle()
-                print(isParallel.data())
+                isParallel.toggleAndShow(screen, font)
 
     for button in buttons:
         button.show()
 
+    isParallel.update(screen)
     pg.display.flip()
     setfps.tick(TICK_RATE)
