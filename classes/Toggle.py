@@ -13,7 +13,7 @@ class Toggle:
         self.internal_data = not self.internal_data
         if screen is not None:
             self.toShow = font.render("{} : {}".format(
-                self.name, self.internal_data), True, (255, 255, 255))
+                self.name, self.internal_data), True, (0, 0, 0))
             self.showTime = 75
 
     def update(self, screen: pg.Surface):

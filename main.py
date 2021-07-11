@@ -22,6 +22,10 @@ addL.SetText("Add L")
 addC = Button((550, 510), (100, 40), screen, True)
 addC.SetText("Add C")
 
+resistor = pg.image.load("assets/images/Resistor.png")
+inductor = pg.image.load("assets/images/Inductor.png")
+capacitor = pg.image.load("assets/images/Capacitor.png")
+
 buttons = [addR, addL, addC]
 for button in buttons:
     button.SetFont(font)
@@ -29,7 +33,7 @@ for button in buttons:
 isParallel = Toggle(False, "Parallel Mode", (313, 560))
 
 while True:
-    screen.fill((0, 0, 0))
+    screen.fill((255, 255, 255))
 
     for event in pg.event.get():
         if event.type == pg.QUIT:

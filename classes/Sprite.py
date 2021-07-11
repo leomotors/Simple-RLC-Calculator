@@ -34,10 +34,11 @@ class Button(Sprite):
         if not self.appearance:
             return
 
-        pg.draw.rect(self.screen, (255, 255, 255), (self.position + self.size))
+        pg.draw.rect(self.screen, (0, 0, 0), (self.position + self.size))
         if self.text is not None:
             self.renderText()
 
     def renderText(self):
-        txtSprite = self.font.render(self.text, True, (0, 0, 0))
-        self.screen.blit(txtSprite, (self.position[0] + 20, self.position[1] + 5))
+        txtSprite = self.font.render(self.text, True, (255, 255, 255))
+        self.screen.blit(
+            txtSprite, (self.position[0] + 20, self.position[1] + 5))
