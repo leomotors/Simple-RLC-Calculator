@@ -1,5 +1,6 @@
 import pygame as pg
 from classes.Sprite import *
+from classes.Toggle import Toggle
 import pyautogui
 
 pg.init()
@@ -25,6 +26,7 @@ buttons = [addR, addL, addC]
 for button in buttons:
     button.SetFont(font)
 
+isParallel = Toggle(False)
 
 while True:
     screen.fill((0, 0, 0))
@@ -38,6 +40,10 @@ while True:
             for button in buttons:
                 if button.checkCollide(pos):
                     print("Collide with", button.text)
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                isParallel.toggle()
+                print(isParallel.data())
 
     for button in buttons:
         button.show()
