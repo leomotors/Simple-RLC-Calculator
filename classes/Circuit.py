@@ -21,6 +21,10 @@ class SeriesCircuit(Circuit):
 
     def getImpedance(self) -> complex:
         return self.impedance
+    
+    def drawComponent(self, screen : pg.Surface):
+        for c in self.components:
+            c.drawComponent(screen)
 
 
 class ParallelCircuit(Circuit):

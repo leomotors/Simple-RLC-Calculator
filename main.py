@@ -28,10 +28,6 @@ addL.SetText("Add L")
 addC = Button((550, 510), (100, 40), screen, True)
 addC.SetText("Add C")
 
-resistor = pg.image.load("assets/images/Resistor.png")
-inductor = pg.image.load("assets/images/Inductor.png")
-capacitor = pg.image.load("assets/images/Capacitor.png")
-
 buttons = [addR, addL, addC]
 for button in buttons:
     button.SetFont(font)
@@ -55,6 +51,9 @@ try:
         Circuit_ω = 2 * math.pi * float(Circuit_f_Input[:-2].split(" ")[0])
     else:
         Circuit_ω = Circuit_f_Input
+        if type(Circuit_ω) is not int and type(Circuit_ω) is not float:
+            raise TypeError
+
 except:
     sys.stdout.write("\a")
     sys.stdout.flush()
@@ -112,6 +111,7 @@ while True:
     for button in buttons:
         button.show()
 
+    MainCircuit.drawComponent(screen)
     isParallel.update(screen)
     pg.display.flip()
     setfps.tick(TICK_RATE)
