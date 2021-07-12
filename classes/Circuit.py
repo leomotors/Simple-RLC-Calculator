@@ -21,10 +21,26 @@ class SeriesCircuit(Circuit):
 
     def getImpedance(self) -> complex:
         return self.impedance
-    
-    def drawComponent(self, screen : pg.Surface):
+
+    def drawComponent(self, screen: pg.Surface):
+        x_offset = 0
+        x_start = 400 - 50 * len(self.components)
         for c in self.components:
-            c.drawComponent(screen)
+            c.drawComponent(screen, x_start + x_offset)
+            x_offset += 100
+
+    def ApplyVoltage(self, voltage):
+        self.voltage = voltage
+        self.current = self.voltage / self.impedance
+        for c in self.components:
+            c.ApplyCurrent(self.current)
+
+    def printf(self) -> str:
+        thicc_txt = ""
+        for c in self.components:
+            thicc_txt += c.printf()
+            thicc_txt += "\n\n"
+        return thicc_txt
 
 
 class ParallelCircuit(Circuit):

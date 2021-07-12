@@ -50,9 +50,7 @@ try:
     if "Hz" in Circuit_f_Input:
         Circuit_ω = 2 * math.pi * float(Circuit_f_Input[:-2].split(" ")[0])
     else:
-        Circuit_ω = Circuit_f_Input
-        if type(Circuit_ω) is not int and type(Circuit_ω) is not float:
-            raise TypeError
+        Circuit_ω = float(Circuit_f_Input)
 
 except:
     sys.stdout.write("\a")
@@ -106,7 +104,9 @@ while True:
                 isParallel.toggleAndShow(screen, font)
             if event.key == pg.K_RETURN:
                 MainCircuit.CalcImpedance()
-                print(MainCircuit.impedance)
+                MainCircuit.ApplyVoltage(Circuit_Voltage)
+                pyautogui.alert(text=MainCircuit.printf(),
+                                title="Circuit Calculation Result")
 
     for button in buttons:
         button.show()
