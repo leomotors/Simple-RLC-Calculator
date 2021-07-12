@@ -7,6 +7,7 @@ from classes.Component import *
 import pyautogui
 
 import math
+import sys
 
 pg.init()
 
@@ -39,17 +40,28 @@ isParallel = Toggle(False, "Parallel Mode", (313, 560))
 
 MainCircuit = SeriesCircuit()
 
-Circuit_Voltage: float = float(pyautogui.prompt(
-    text="Enter Voltage (rms): ", title="Circuit Setup", default=""))
+try:
+    Circuit_Voltage: float = float(pyautogui.prompt(
+        text="Enter Voltage (rms): ", title="Circuit Setup", default=""))
 
-Circuit_f_Input = pyautogui.prompt(
-    text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency)", title="Circuit Setup", default="")
+    Circuit_f_Input = pyautogui.prompt(
+        text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency, no prefix allowed)", title="Circuit Setup", default="")
 
-Circuit_ω = 0
-if "Hz" in Circuit_f_Input:
-    Circuit_ω = 2 * math.pi * Circuit_f_Input
-else:
-    Circuit_ω = Circuit_f_Input
+    if Circuit_Voltage is None or Circuit_f_Input is None:
+        raise TypeError
+
+    Circuit_ω = 0
+    if "Hz" in Circuit_f_Input:
+        Circuit_ω = 2 * math.pi * float(Circuit_f_Input[:-2].split(" ")[0])
+    else:
+        Circuit_ω = Circuit_f_Input
+except:
+    sys.stdout.write("\a")
+    sys.stdout.flush()
+    pyautogui.alert(
+        text="Exception Raised, please make sure the input is correct", title="Error")
+    pg.quit()
+    sys.exit()
 
 
 while True:
@@ -58,6 +70,7 @@ while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
+            sys.exit()
 
         if event.type == pg.MOUSEBUTTONDOWN:
             pos = pg.mouse.get_pos()
