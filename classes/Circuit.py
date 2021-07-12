@@ -14,7 +14,7 @@ class SeriesCircuit(Circuit):
     def __init__(self):
         Circuit.__init__(self)
         self.components = []  # * Circuits or Components
-        self.impedance = None
+        self.impedance: complex = None
 
     def CalcImpedance(self):
         self.impedance = sum(k.impedance for k in self.components)
@@ -27,7 +27,7 @@ class ParallelCircuit(Circuit):
     def __init__(self):
         Circuit.__init__(self)
         self.components = []  # * Circuits or Components
-        self.impendance = None
+        self.impendance: complex = None
 
     def CalcImpedance(self):
         self.impedance = 1 / sum(1/k.impedance for k in self.components)

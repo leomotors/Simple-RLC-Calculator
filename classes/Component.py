@@ -16,7 +16,7 @@ class Inductor:
         self.impedance: complex = None
 
     def CalcImpedance(self, ω):
-        self.impedance = (self.inductance * ω)*1j
+        self.impedance = (self.inductance * ω) * 1j
 
 
 class Capacitor:
@@ -25,4 +25,4 @@ class Capacitor:
         self.impedance: complex = None
 
     def CalcImpedance(self, ω):
-        self.impedance = 1 / (self.capacitance * ω)
+        self.impedance = (1 / (self.capacitance * ω)) * -1j
