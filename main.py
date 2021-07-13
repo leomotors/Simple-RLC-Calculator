@@ -17,8 +17,14 @@ SCREENRES = (800, 600)
 TICK_RATE = 75
 FONT_SIZE = 18
 
-screen = pg.display.set_mode(SCREENRES)
+programIcon = pg.image.load("assets/images/Diode.png")
+programIcon = pg.transform.scale(programIcon, (256, 256))
+
+pg.display.set_icon(programIcon)
 pg.display.set_caption("Simple RLC Calculator 1.0 Snapshot")
+
+screen = pg.display.set_mode(SCREENRES)
+
 setfps = pg.time.Clock()
 
 font = pg.font.Font("assets/fonts/Prompt-Regular.ttf", FONT_SIZE)
@@ -40,8 +46,12 @@ MainCircuit = SeriesCircuit()
 
 # * Initialize Circuit Voltage and Angular Speed
 try:
-    Circuit_Voltage: float = float(pyautogui.prompt(
-        text="Enter Voltage (rms): ", title="Circuit Setup", default=""))
+    temp_cv_input = pyautogui.prompt(
+        text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup", default="")
+    if 'M' in temp_cv_input:
+        Circuit_Voltage: float = float(temp_cv_input[:-2]) / math.sqrt(2)
+    else:
+        Circuit_Voltage: float = float(temp_cv_input)
 
     Circuit_f_Input = pyautogui.prompt(
         text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency, no prefix allowed)", title="Circuit Setup", default="")
@@ -64,10 +74,10 @@ except:
     sys.exit()
 
 # * The boi who take care of displaying circuit voltage info on screen 24/7
-Circuit_Input_Information = Text((160, 470), screen)
+Circuit_Input_Information = Text((105, 470), screen)
 Circuit_Input_Information.SetFont(font)
 Circuit_Input_Information.SetText(
-    "Circuit Voltage : {} V rms, {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage, Circuit_ω/2/math.pi, Circuit_ω))
+    "Circuit Voltage : {:.4} V rms ({:.4} V Peak) @ {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage, Circuit_Voltage * math.sqrt(2), Circuit_ω/2/math.pi, Circuit_ω))
 
 newParallel = False
 
@@ -99,7 +109,7 @@ def addComponent(ComponentType: type):
                     text="Enter Capacitance: ", title="Add Capacitor", default=""))
             else:
                 temp.capacitance = 1 / float(pyautogui.prompt(
-                    text="Enter Capacitance: ", title="Add Capacitor", default="")) / Circuit_ω
+                    text="Enter Reactance: ", title="Add Capacitor", default="")) / Circuit_ω
     except:
         pass
     else:
