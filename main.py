@@ -78,9 +78,10 @@ def addComponent(ComponentType: type):
     else:
         temp.CalcImpedance(Circuit_ω)
         if isParallel.data():
-            if type(MainCircuit.components[-1]) is not ParallelCircuit:
+            if len(MainCircuit.components) == 0 or type(MainCircuit.components[-1]) is not ParallelCircuit:
                 MainCircuit.components.append(ParallelCircuit())
             MainCircuit.components[-1].components.append(temp)
+            MainCircuit.components[-1].CalcImpedance()
         else:
             MainCircuit.components.append(temp)
 
@@ -119,7 +120,7 @@ while True:
                     MainCircuit.ApplyVoltage(Circuit_Voltage)
                     pyautogui.alert(text=MainCircuit.printf() + "*Phase is referenced from input voltage",
                                     title="Circuit Calculation Result")
-                except:
+                except ValueError:
                     pyautogui.alert(text="Exception raised during calculation, Circuit might not be valid",
                                     title="Error")
 

@@ -54,14 +54,23 @@ class ParallelCircuit(Circuit):
         self.impendance: complex = None
 
     def CalcImpedance(self):
-        self.impedance = 1 / sum(1/k.impedance for k in self.components)
+        sumimpinv = None
+        try:
+            sumimpinv = sum(1 / k.impedance for k in self.components)
+        except ZeroDivisionError:
+            sumimpinv = math.inf
+
+        try:
+            self.impedance = 1 / sumimpinv
+        except ZeroDivisionError:
+            self.impedance = math.inf
 
     def getImpedance(self) -> complex:
         return self.impedance
 
     def drawComponent(self, screen: pg.Surface, x_pos: float):
         y_offset = 0
-        y_start = 200
+        y_start = 200 - 35 * len(self.components)
         for c in self.components:
             c.drawComponent(screen, x_pos, y_start + y_offset)
             y_offset += 70
@@ -69,4 +78,13 @@ class ParallelCircuit(Circuit):
     def ApplyCurrent(self, current: complex):
         Component.ApplyCurrent(self, current)
         for c in self.components:
-            c.ApplyVoltage()
+            c.ApplyVoltage(self.voltage)
+
+    def printf(self, _, __) -> str:
+        thicc_txt = "Parallel Circuit with total current of {} and voltage across it is {}\n\n".format(
+            self.printAmp(), self.printVolt())
+
+        for c in self.components:
+            thicc_txt += c.printf(True, False)
+            thicc_txt += "\n\n"
+        return thicc_txt

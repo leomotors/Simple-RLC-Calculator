@@ -59,7 +59,7 @@ class Component:
 
     def printf(self, printI: bool, printV: bool) -> str:
         return "• {} :{}{}{}".format(
-            self.getName(), " I = {}".format(self.printAmp) if printI else "", "," if printI and printV else "", " V = {}".format(self.printVolt()) if printV else "")
+            self.getName(), " I = {}".format(self.printAmp()) if printI else "", "," if printI and printV else "", " V = {}".format(self.printVolt()) if printV else "")
 
 
 class Resistor(Component):
