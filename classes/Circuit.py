@@ -2,29 +2,16 @@ import pygame as pg
 
 import math
 
+from .Component import Component
 
-class Circuit:
+
+class Circuit(Component):
     def __init__(self):
         self.impedance = None
         self.voltage = None
         self.current = None
         self.v_phase = None
         self.i_phase = None
-
-    def CalcPhase(self):
-        if self.voltage.real == 0:
-            self.v_phase = math.pi/2 if self.voltage.imag > 0 else -math.pi/2
-        elif self.voltage.imag == 0:
-            self.v_phase = 0
-        else:
-            self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
-
-        if self.current.real == 0:
-            self.i_phase = math.pi/2 if self.current.imag > 0 else -math.pi/2
-        elif self.current.imag == 0:
-            self.i_phase = 0
-        else:
-            self.i_phase = math.atan(self.current.imag / self.current.real)
 
 
 class SeriesCircuit(Circuit):
@@ -46,10 +33,8 @@ class SeriesCircuit(Circuit):
             c.drawComponent(screen, x_start + x_offset)
             x_offset += 100
 
-    def ApplyVoltage(self, voltage):
-        self.voltage = voltage
-        self.current = self.voltage / self.impedance
-        self.CalcPhase()
+    def ApplyVoltage(self, voltage: complex):
+        Component.ApplyVoltage(self, voltage)
         for c in self.components:
             c.ApplyCurrent(self.current)
 
@@ -76,8 +61,6 @@ class ParallelCircuit(Circuit):
         return self.impedance
 
     def ApplyCurrent(self, current: complex):
-        self.current = current
-        self.voltage = self.current * self.impedance
-        self.CalcPhase()
+        Component.ApplyCurrent(self, current)
         for c in self.components:
             c.ApplyVoltage

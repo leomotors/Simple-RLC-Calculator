@@ -126,10 +126,14 @@ while True:
             elif event.key == pg.K_SPACE:
                 isParallel.toggleAndShow(screen, font)
             elif event.key == pg.K_RETURN:
-                MainCircuit.CalcImpedance()
-                MainCircuit.ApplyVoltage(Circuit_Voltage)
-                pyautogui.alert(text=MainCircuit.printf() + "*Phase is referenced from input voltage",
-                                title="Circuit Calculation Result")
+                try:
+                    MainCircuit.CalcImpedance()
+                    MainCircuit.ApplyVoltage(Circuit_Voltage)
+                    pyautogui.alert(text=MainCircuit.printf() + "*Phase is referenced from input voltage",
+                                    title="Circuit Calculation Result")
+                except:
+                    pyautogui.alert(text="Exception raised during calculation, Circuit might not be valid",
+                                    title="Error")
 
     for button in buttons:
         button.show()
