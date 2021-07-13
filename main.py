@@ -120,7 +120,7 @@ while True:
                     MainCircuit.ApplyVoltage(Circuit_Voltage)
                     pyautogui.alert(text=MainCircuit.printf() + "*Phase is referenced from input voltage",
                                     title="Circuit Calculation Result")
-                except ValueError:
+                except:
                     pyautogui.alert(text="Exception raised during calculation, Circuit might not be valid",
                                     title="Error")
 

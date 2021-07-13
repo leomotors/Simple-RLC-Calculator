@@ -19,9 +19,10 @@ class Toggle:
     def update(self, screen: pg.Surface):
         if self.toShow is not None:
             screen.blit(self.toShow, self.txtdest)
-            self.showTime -= 1
-            if self.showTime <= 0:
-                self.toShow = None
+            if not self.internal_data:
+                self.showTime -= 1
+                if self.showTime <= 0:
+                    self.toShow = None
 
     def data(self) -> bool:
         return self.internal_data

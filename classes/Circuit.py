@@ -38,12 +38,12 @@ class SeriesCircuit(Circuit):
         for c in self.components:
             c.ApplyCurrent(self.current)
 
-    def printf(self) -> str:
-        thicc_txt = "Series Circuit with current of {} and voltage across it is {}\n\n".format(
+    def printf(self, _=None, __=None, indent_level: int = 0) -> str:
+        thicc_txt = "Series Circuit with current of {} and voltage across it is {}, it's components are\n\n".format(
             self.printAmp(), self.printVolt())
 
         for c in self.components:
-            thicc_txt += c.printf(False, True)
+            thicc_txt += c.printf(False, True, indent_level + 1)
             thicc_txt += "\n\n"
         return thicc_txt
 
@@ -80,11 +80,11 @@ class ParallelCircuit(Circuit):
         for c in self.components:
             c.ApplyVoltage(self.voltage)
 
-    def printf(self, _, __) -> str:
-        thicc_txt = "Parallel Circuit with total current of {} and voltage across it is {}\n\n".format(
-            self.printAmp(), self.printVolt())
+    def printf(self, _, __, indent_level: int = 1) -> str:
+        thicc_txt = "{}• Parallel Circuit with total current of {} and voltage across it is {}, it's components are\n\n".format(
+            "  " * (indent_level - 1), self.printAmp(), self.printVolt())
 
         for c in self.components:
-            thicc_txt += c.printf(True, False)
-            thicc_txt += "\n\n"
+            thicc_txt += c.printf(True, False, indent_level + 1)
+            thicc_txt += "\n"
         return thicc_txt
