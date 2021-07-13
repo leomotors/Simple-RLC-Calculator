@@ -7,7 +7,7 @@ resistor = pg.transform.scale(resistor, (120, 90))
 inductor = pg.image.load("assets/images/Inductor.png")
 inductor = pg.transform.scale(inductor, (120, 60))
 capacitor = pg.image.load("assets/images/Capacitor.png")
-capacitor = pg.transform.scale(capacitor, (100, 100))
+capacitor = pg.transform.scale(capacitor, (120, 100))
 
 
 class Component:

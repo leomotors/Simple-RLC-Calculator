@@ -28,10 +28,10 @@ class SeriesCircuit(Circuit):
 
     def drawComponent(self, screen: pg.Surface):
         x_offset = 0
-        x_start = 400 - 50 * len(self.components)
+        x_start = 400 - 60 * len(self.components)
         for c in self.components:
             c.drawComponent(screen, x_start + x_offset)
-            x_offset += 100
+            x_offset += 120
 
     def ApplyVoltage(self, voltage: complex):
         Component.ApplyVoltage(self, voltage)
@@ -70,10 +70,15 @@ class ParallelCircuit(Circuit):
 
     def drawComponent(self, screen: pg.Surface, x_pos: float):
         y_offset = 0
-        y_start = 200 - 35 * len(self.components)
+        y_start = 200 - 30 * len(self.components) + 20
+
         for c in self.components:
             c.drawComponent(screen, x_pos, y_start + y_offset)
             y_offset += 70
+        pg.draw.rect(screen, (0, 0, 0),
+                     ((x_pos, y_start + 40) + (5, y_offset - 70)))
+        pg.draw.rect(screen, (0, 0, 0),
+                     ((x_pos + 120, y_start + 40) + (5, y_offset - 70)))
 
     def ApplyCurrent(self, current: complex):
         Component.ApplyCurrent(self, current)
