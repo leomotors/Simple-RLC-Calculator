@@ -75,29 +75,36 @@ while True:
                 if button.checkCollide(pos):
                     if button.text == "Add R":
                         temp = Resistor()
-                        temp.resistance = float(pyautogui.prompt(
-                            text="Enter Resistance: ", title="Add Resistor", default=""))
-                        if temp.resistance is None:
+                        try:
+                            temp.resistance = float(pyautogui.prompt(
+                                text="Enter Resistance: ", title="Add Resistor", default=""))
+                        except:
                             pass
-                        temp.CalcImpedance()
-                        print(temp.impedance)
-                        MainCircuit.components.append(temp)
+                        else:
+                            temp.CalcImpedance()
+                            MainCircuit.components.append(temp)
 
                     if button.text == "Add L":
                         temp = Inductor()
-                        temp.inductance = float(pyautogui.prompt(
-                            text="Enter Inductance: ", title="Add Inductor", default=""))
-                        temp.CalcImpedance(Circuit_ω)
-                        print(temp.impedance)
-                        MainCircuit.components.append(temp)
+                        try:
+                            temp.inductance = float(pyautogui.prompt(
+                                text="Enter Inductance: ", title="Add Inductor", default=""))
+                        except:
+                            pass
+                        else:
+                            temp.CalcImpedance(Circuit_ω)
+                            MainCircuit.components.append(temp)
 
                     if button.text == "Add C":
                         temp = Capacitor()
-                        temp.capacitance = float(pyautogui.prompt(
-                            text="Enter Capacitance: ", title="Add Capacitor", default=""))
-                        temp.CalcImpedance(Circuit_ω)
-                        print(temp.impedance)
-                        MainCircuit.components.append(temp)
+                        try:
+                            temp.capacitance = float(pyautogui.prompt(
+                                text="Enter Capacitance: ", title="Add Capacitor", default=""))
+                        except:
+                            pass
+                        else:
+                            temp.CalcImpedance(Circuit_ω)
+                            MainCircuit.components.append(temp)
 
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_SPACE:

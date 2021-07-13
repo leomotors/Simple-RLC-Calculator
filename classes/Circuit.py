@@ -12,8 +12,15 @@ class Circuit:
         self.i_phase = None
 
     def CalcPhase(self):
-        self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
-        self.i_phase = math.atan(self.current.imag / self.current.real)
+        if self.voltage.real == 0:
+            self.v_phase = math.pi/2 if self.voltage.imag > 0 else -math.pi/2
+        else:
+            self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
+
+        if self.current.real == 0:
+            self.i_phase = math.pi/2 if self.current.imag > 0 else -math.pi/2
+        else:
+            self.i_phase = math.atan(self.current.imag / self.current.real)
 
 
 class SeriesCircuit(Circuit):

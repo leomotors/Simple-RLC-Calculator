@@ -19,10 +19,17 @@ class Component:
         self.impedance = None
         self.v_phase = None
         self.i_phase = None
-    
+
     def CalcPhase(self):
-        self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
-        self.i_phase = math.atan(self.current.imag / self.current.real)
+        if self.voltage.real == 0:
+            self.v_phase = math.pi/2 if self.voltage.imag > 0 else -math.pi/2
+        else:
+            self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
+
+        if self.current.real == 0:
+            self.i_phase = math.pi/2 if self.current.imag > 0 else -math.pi/2
+        else:
+            self.i_phase = math.atan(self.current.imag / self.current.real)
 
     def drawComponent(self, screen: pg.Surface, x_pos: float):
         screen.blit(self.pic, (x_pos, 200 + self.y_offset))
@@ -31,15 +38,15 @@ class Component:
         self.current = current
         self.voltage = current * self.impedance
         self.CalcPhase()
-        
+
     def ApplyVoltage(self, voltage):
         self.voltage = voltage
         self.current = voltage / self.impedance
         self.CalcPhase()
 
     def printf(self) -> str:
-        return "{} : I = {} A, V = {} V".format(
-            self.getName(), self.current, self.voltage)
+        return "{} : I = {:.4} ({:.4}) A lacks by {:.4}π, V = {:.4} ({:.4}) V lacks by {:.4}π".format(
+            self.getName(), self.current, abs(self.current), self.i_phase/math.pi, self.voltage, abs(self.voltage), self.v_phase/math.pi)
 
 
 class Resistor(Component):
