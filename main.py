@@ -32,7 +32,7 @@ buttons = [addR, addL, addC]
 for button in buttons:
     button.SetFont(font)
 
-isParallel = Toggle(False, "Parallel Mode", (313, 560))
+isParallel = Toggle(False, "Parallel Mode", (280, 560))
 
 MainCircuit = SeriesCircuit()
 
@@ -68,6 +68,13 @@ Circuit_Input_Information.SetText(
 newParallel = False
 
 
+def CollapseLastParallelIfItIs():
+    if len(MainCircuit.components) >= 1 and type(MainCircuit.components[-1]) is ParallelCircuit and len(MainCircuit.components[-1].components) == 1:
+        MainCircuit.components.append(
+            MainCircuit.components[-1].components[0])
+        del MainCircuit.components[-2]
+
+
 def addComponent(ComponentType: type):
     global newParallel
     temp = ComponentType()
@@ -87,11 +94,13 @@ def addComponent(ComponentType: type):
         temp.CalcImpedance(Circuit_ω)
         if isParallel.data():
             if len(MainCircuit.components) == 0 or type(MainCircuit.components[-1]) is not ParallelCircuit or newParallel:
+                CollapseLastParallelIfItIs()
                 MainCircuit.components.append(ParallelCircuit())
             MainCircuit.components[-1].components.append(temp)
             MainCircuit.components[-1].CalcImpedance()
             newParallel = False
         else:
+            CollapseLastParallelIfItIs()
             MainCircuit.components.append(temp)
 
 

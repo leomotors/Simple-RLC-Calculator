@@ -12,8 +12,8 @@ class Toggle:
     def toggleAndShow(self, screen: pg.Surface = None, font: pg.font.Font = None):
         self.internal_data = not self.internal_data
         if screen is not None:
-            self.toShow = font.render("{} : {}".format(
-                self.name, self.internal_data), True, (0, 0, 0))
+            self.toShow = font.render(
+                "Creating Parallel Circuit..." if self.internal_data else "Done Creating Parallel Circuit", True, (0, 0, 0))
             self.showTime = 75
 
     def update(self, screen: pg.Surface):
