@@ -45,12 +45,21 @@ class Component:
 
     def ApplyVoltage(self, voltage):
         self.voltage = voltage
-        self.current = voltage / self.impedance
+        try:
+            self.current = voltage / self.impedance
+        except ZeroDivisionError:
+            self.current = math.inf * voltage
         self.CalcPhase()
 
+    def printAmp(self) -> str:
+        return "{:.4} ({:.4}) Amp {} by {:.4}π ({:.4}deg)".format(self.current, abs(self.current), "leads" if self.i_phase >= 0 else "lacks", abs(self.i_phase/math.pi), abs(180*self.i_phase/math.pi))
+
+    def printVolt(self) -> str:
+        return "{:.4} ({:.4}) Volt {} by {:.4}π ({:.4}deg)".format(self.voltage, abs(self.voltage), "leads" if self.v_phase >= 0 else "lacks", abs(self.v_phase/math.pi), abs(180*self.v_phase/math.pi))
+
     def printf(self) -> str:
-        return "• {} : I = {:.4} ({:.4}) Amp leads by {:.4}π ({:.4}deg), V = {:.4} ({:.4}) Volt leads by {:.4}π ({:.4}deg)".format(
-            self.getName(), self.current, abs(self.current), self.i_phase/math.pi, 180*self.i_phase/math.pi, self.voltage, abs(self.voltage), self.v_phase/math.pi, 180*self.v_phase/math.pi)
+        return "• {} : I = {}, V = {}".format(
+            self.getName(), self.printAmp(), self.printVolt())
 
 
 class Resistor(Component):
@@ -60,7 +69,7 @@ class Resistor(Component):
         self.impedance: complex = None
         self.pic: pg.Surface = resistor
 
-    def CalcImpedance(self):
+    def CalcImpedance(self, _):
         self.impedance = self.resistance
 
     def getName(self) -> str:
@@ -91,7 +100,10 @@ class Capacitor(Component):
         self.y_offset = -5
 
     def CalcImpedance(self, ω):
-        self.impedance = (1 / (self.capacitance * ω)) * -1j
+        try:
+            self.impedance = (1 / (self.capacitance * ω)) * -1j
+        except ZeroDivisionError:
+            self.impedance = math.inf * -1j
 
     def getName(self) -> str:
         return "Capacitor {} F".format(self.capacitance)

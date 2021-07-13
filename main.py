@@ -61,35 +61,18 @@ except:
     sys.exit()
 
 
-def addR():
-    temp = Resistor()
+def addComponent(ComponentType: type):
+    temp = ComponentType()
     try:
-        temp.resistance = float(pyautogui.prompt(
-            text="Enter Resistance: ", title="Add Resistor", default=""))
-    except:
-        pass
-    else:
-        temp.CalcImpedance()
-        MainCircuit.components.append(temp)
-
-
-def addL():
-    temp = Inductor()
-    try:
-        temp.inductance = float(pyautogui.prompt(
-            text="Enter Inductance: ", title="Add Inductor", default=""))
-    except:
-        pass
-    else:
-        temp.CalcImpedance(Circuit_ω)
-        MainCircuit.components.append(temp)
-
-
-def addC():
-    temp = Capacitor()
-    try:
-        temp.capacitance = float(pyautogui.prompt(
-            text="Enter Capacitance: ", title="Add Capacitor", default=""))
+        if ComponentType is Resistor:
+            temp.resistance = float(pyautogui.prompt(
+                text="Enter Resistance: ", title="Add Resistor", default=""))
+        elif ComponentType is Inductor:
+            temp.inductance = float(pyautogui.prompt(
+                text="Enter Inductance: ", title="Add Inductor", default=""))
+        elif ComponentType is Capacitor:
+            temp.capacitance = float(pyautogui.prompt(
+                text="Enter Capacitance: ", title="Add Capacitor", default=""))
     except:
         pass
     else:
@@ -110,19 +93,19 @@ while True:
             for button in buttons:
                 if button.checkCollide(pos):
                     if button.text == "Add R":
-                        addR()
+                        addComponent(Resistor)
                     if button.text == "Add L":
-                        addL()
+                        addComponent(Inductor)
                     if button.text == "Add C":
-                        addC()
+                        addComponent(Capacitor)
 
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_r:
-                addR()
+                addComponent(Resistor)
             elif event.key == pg.K_l:
-                addL()
+                addComponent(Inductor)
             elif event.key == pg.K_c:
-                addC()
+                addComponent(Capacitor)
             elif event.key == pg.K_SPACE:
                 isParallel.toggleAndShow(screen, font)
             elif event.key == pg.K_RETURN:
