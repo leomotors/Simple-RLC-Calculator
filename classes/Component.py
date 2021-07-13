@@ -35,8 +35,8 @@ class Component:
         else:
             self.i_phase = math.atan(self.current.imag / self.current.real)
 
-    def drawComponent(self, screen: pg.Surface, x_pos: float):
-        screen.blit(self.pic, (x_pos, 200 + self.y_offset))
+    def drawComponent(self, screen: pg.Surface, x_pos: float, y_pos: float = 200):
+        screen.blit(self.pic, (x_pos, y_pos + self.y_offset))
 
     def ApplyCurrent(self, current):
         self.current = current
@@ -88,7 +88,7 @@ class Inductor(Component):
         self.impedance = (self.inductance * ω) * 1j
 
     def getName(self) -> str:
-        return "Inductor {} H".format(self.inductance)
+        return "Inductor {} H ({:.4} Ω)".format(self.inductance, abs(self.impedance))
 
 
 class Capacitor(Component):
@@ -106,4 +106,4 @@ class Capacitor(Component):
             self.impedance = math.inf * -1j
 
     def getName(self) -> str:
-        return "Capacitor {} F".format(self.capacitance)
+        return "Capacitor {} F ({:.4} Ω)".format(self.capacitance, abs(self.impedance))

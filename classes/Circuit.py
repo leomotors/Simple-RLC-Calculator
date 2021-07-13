@@ -59,7 +59,14 @@ class ParallelCircuit(Circuit):
     def getImpedance(self) -> complex:
         return self.impedance
 
+    def drawComponent(self, screen: pg.Surface, x_pos: float):
+        y_offset = 0
+        y_start = 200
+        for c in self.components:
+            c.drawComponent(screen, x_pos, y_start + y_offset)
+            y_offset += 70
+
     def ApplyCurrent(self, current: complex):
         Component.ApplyCurrent(self, current)
         for c in self.components:
-            c.ApplyVoltage
+            c.ApplyVoltage()

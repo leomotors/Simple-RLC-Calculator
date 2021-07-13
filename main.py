@@ -77,7 +77,12 @@ def addComponent(ComponentType: type):
         pass
     else:
         temp.CalcImpedance(Circuit_ω)
-        MainCircuit.components.append(temp)
+        if isParallel.data():
+            if type(MainCircuit.components[-1]) is not ParallelCircuit:
+                MainCircuit.components.append(ParallelCircuit())
+            MainCircuit.components[-1].components.append(temp)
+        else:
+            MainCircuit.components.append(temp)
 
 
 while True:
