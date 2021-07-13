@@ -18,6 +18,10 @@ Requires Python, Run main.py to start program.
 
 System Compatibility is depend on pygame. (Windows Recommended)
 
+## 📚 Documents
+
+How to use : <a href="https://github.com/Leomotors/Simple-RLC-Calculator/blob/main/docs/howtouse.md">Here</a>
+
 ## ⚡ 'P h y s i c s'
 
 <img src="https://i.imgflip.com/3rzhq2.png" height=300px>

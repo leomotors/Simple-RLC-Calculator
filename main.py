@@ -21,7 +21,7 @@ programIcon = pg.image.load("assets/images/Diode.png")
 programIcon = pg.transform.scale(programIcon, (256, 256))
 
 pg.display.set_icon(programIcon)
-pg.display.set_caption("Simple RLC Calculator 1.0 Snapshot")
+pg.display.set_caption("Simple RLC Calculator 1.0 Pre-Release")
 
 screen = pg.display.set_mode(SCREENRES)
 
@@ -49,7 +49,7 @@ try:
     temp_cv_input = pyautogui.prompt(
         text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup", default="")
     if 'M' in temp_cv_input:
-        Circuit_Voltage: float = float(temp_cv_input[:-2]) / math.sqrt(2)
+        Circuit_Voltage: float = float(temp_cv_input[:-1]) / math.sqrt(2)
     else:
         Circuit_Voltage: float = float(temp_cv_input)
 
