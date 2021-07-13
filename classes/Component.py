@@ -57,9 +57,9 @@ class Component:
     def printVolt(self) -> str:
         return "{:.4} ({:.4}) Volt {} by {:.4}π ({:.4}deg)".format(self.voltage, abs(self.voltage), "leads" if self.v_phase >= 0 else "lacks", abs(self.v_phase/math.pi), abs(180*self.v_phase/math.pi))
 
-    def printf(self) -> str:
-        return "• {} : I = {}, V = {}".format(
-            self.getName(), self.printAmp(), self.printVolt())
+    def printf(self, printI: bool, printV: bool) -> str:
+        return "• {} :{}{}{}".format(
+            self.getName(), " I = {}".format(self.printAmp) if printI else "", "," if printI and printV else "", " V = {}".format(self.printVolt()) if printV else "")
 
 
 class Resistor(Component):

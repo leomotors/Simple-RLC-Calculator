@@ -7,6 +7,7 @@ from .Component import Component
 
 class Circuit(Component):
     def __init__(self):
+        self.components: list[Component] = []  # * Circuits or Components
         self.impedance = None
         self.voltage = None
         self.current = None
@@ -17,7 +18,6 @@ class Circuit(Component):
 class SeriesCircuit(Circuit):
     def __init__(self):
         Circuit.__init__(self)
-        self.components = []  # * Circuits or Components
         self.impedance: complex = None
 
     def CalcImpedance(self):
@@ -43,7 +43,7 @@ class SeriesCircuit(Circuit):
             self.printAmp(), self.printVolt())
 
         for c in self.components:
-            thicc_txt += c.printf()
+            thicc_txt += c.printf(False, True)
             thicc_txt += "\n\n"
         return thicc_txt
 
@@ -51,7 +51,6 @@ class SeriesCircuit(Circuit):
 class ParallelCircuit(Circuit):
     def __init__(self):
         Circuit.__init__(self)
-        self.components = []  # * Circuits or Components
         self.impendance: complex = None
 
     def CalcImpedance(self):
