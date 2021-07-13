@@ -1,5 +1,7 @@
 import pygame as pg
 
+import math
+
 
 class Circuit:
     def __init__(self):
@@ -8,6 +10,10 @@ class Circuit:
         self.current = None
         self.v_phase = None
         self.i_phase = None
+
+    def CalcPhase(self):
+        self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
+        self.i_phase = math.atan(self.current.imag / self.current.real)
 
 
 class SeriesCircuit(Circuit):
@@ -32,6 +38,7 @@ class SeriesCircuit(Circuit):
     def ApplyVoltage(self, voltage):
         self.voltage = voltage
         self.current = self.voltage / self.impedance
+        self.CalcPhase()
         for c in self.components:
             c.ApplyCurrent(self.current)
 
@@ -54,3 +61,10 @@ class ParallelCircuit(Circuit):
 
     def getImpedance(self) -> complex:
         return self.impedance
+
+    def ApplyCurrent(self, current: complex):
+        self.current = current
+        self.voltage = self.current * self.impedance
+        self.CalcPhase()
+        for c in self.components:
+            c.ApplyVoltage

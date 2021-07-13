@@ -1,5 +1,7 @@
 import pygame as pg
 
+import math
+
 resistor = pg.image.load("assets/images/Resistor.png")
 resistor = pg.transform.scale(resistor, (120, 90))
 inductor = pg.image.load("assets/images/Inductor.png")
@@ -15,7 +17,12 @@ class Component:
         self.current = None
         self.voltage = None
         self.impedance = None
-        pass
+        self.v_phase = None
+        self.i_phase = None
+    
+    def CalcPhase(self):
+        self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
+        self.i_phase = math.atan(self.current.imag / self.current.real)
 
     def drawComponent(self, screen: pg.Surface, x_pos: float):
         screen.blit(self.pic, (x_pos, 200 + self.y_offset))
@@ -23,6 +30,12 @@ class Component:
     def ApplyCurrent(self, current):
         self.current = current
         self.voltage = current * self.impedance
+        self.CalcPhase()
+        
+    def ApplyVoltage(self, voltage):
+        self.voltage = voltage
+        self.current = voltage / self.impedance
+        self.CalcPhase()
 
     def printf(self) -> str:
         return "{} : I = {} A, V = {} V".format(
