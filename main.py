@@ -60,6 +60,11 @@ except:
     pg.quit()
     sys.exit()
 
+Circuit_Input_Information = Text((160, 470), screen)
+Circuit_Input_Information.SetFont(font)
+Circuit_Input_Information.SetText(
+    "Circuit Voltage : {} V rms, {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage, Circuit_ω/2/math.pi, Circuit_ω))
+
 
 def addComponent(ComponentType: type):
     temp = ComponentType()
@@ -116,6 +121,8 @@ while True:
                 isParallel.toggleAndShow(screen, font)
             elif event.key == pg.K_RETURN:
                 try:
+                    if len(MainCircuit.components) == 0:
+                        raise AttributeError
                     MainCircuit.CalcImpedance()
                     MainCircuit.ApplyVoltage(Circuit_Voltage)
                     pyautogui.alert(text=MainCircuit.printf() + "*Phase is referenced from input voltage",
@@ -128,6 +135,8 @@ while True:
         button.show()
 
     MainCircuit.drawComponent(screen)
+    Circuit_Input_Information.show()
     isParallel.update(screen)
+    
     pg.display.flip()
     setfps.tick(TICK_RATE)

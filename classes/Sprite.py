@@ -7,6 +7,14 @@ class Sprite:
         self.size = size
         self.screen = screen
         self.appearance = appearance
+        self.text = None
+        self.font = None
+
+    def SetText(self, text: str):
+        self.text = text
+
+    def SetFont(self, font: pg.font.Font):
+        self.font = font
 
     # * Check if pos is in Sprite's Boundary
     def checkCollide(self, pos: tuple[int]):
@@ -22,13 +30,6 @@ class Sprite:
 class Button(Sprite):
     def __init__(self, position: tuple[int], size: tuple[int], screen: pg.Surface, appearance: bool = False):
         Sprite.__init__(self, position, size, screen, appearance)
-        self.text = None
-
-    def SetText(self, text: str):
-        self.text = text
-
-    def SetFont(self, font: pg.font.Font):
-        self.font = font
 
     def show(self):
         if not self.appearance:
@@ -42,3 +43,15 @@ class Button(Sprite):
         txtSprite = self.font.render(self.text, True, (255, 255, 255))
         self.screen.blit(
             txtSprite, (self.position[0] + 20, self.position[1] + 5))
+
+
+class Text(Sprite):
+    def __init__(self, position: tuple[int], screen: pg.Surface):
+        Sprite.__init__(self, position, None, screen, True)
+
+    def show(self):
+        if not self.appearance:
+            return
+
+        txtSprite = self.font.render(self.text, True, (0, 0, 0))
+        self.screen.blit(txtSprite, self.position)
