@@ -65,8 +65,11 @@ Circuit_Input_Information.SetFont(font)
 Circuit_Input_Information.SetText(
     "Circuit Voltage : {} V rms, {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage, Circuit_ω/2/math.pi, Circuit_ω))
 
+newParallel = False
+
 
 def addComponent(ComponentType: type):
+    global newParallel
     temp = ComponentType()
     try:
         if ComponentType is Resistor:
@@ -83,10 +86,11 @@ def addComponent(ComponentType: type):
     else:
         temp.CalcImpedance(Circuit_ω)
         if isParallel.data():
-            if len(MainCircuit.components) == 0 or type(MainCircuit.components[-1]) is not ParallelCircuit:
+            if len(MainCircuit.components) == 0 or type(MainCircuit.components[-1]) is not ParallelCircuit or newParallel:
                 MainCircuit.components.append(ParallelCircuit())
             MainCircuit.components[-1].components.append(temp)
             MainCircuit.components[-1].CalcImpedance()
+            newParallel = False
         else:
             MainCircuit.components.append(temp)
 
@@ -119,6 +123,7 @@ while True:
                 addComponent(Capacitor)
             elif event.key == pg.K_SPACE:
                 isParallel.toggleAndShow(screen, font)
+                newParallel = True
             elif event.key == pg.K_RETURN:
                 try:
                     if len(MainCircuit.components) == 0:
@@ -137,6 +142,6 @@ while True:
     MainCircuit.drawComponent(screen)
     Circuit_Input_Information.show()
     isParallel.update(screen)
-    
+
     pg.display.flip()
     setfps.tick(TICK_RATE)
