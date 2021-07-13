@@ -54,6 +54,8 @@ class SeriesCircuit(Circuit):
         for c in self.components:
             thicc_txt += c.printf()
             thicc_txt += "\n\n"
+        thicc_txt += "Circuit Current is {:.4} ({:.4}) A leads by {:.4}π\n\n".format(
+            self.current, abs(self.current), self.i_phase/math.pi)
         return thicc_txt
 
 

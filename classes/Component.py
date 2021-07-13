@@ -45,7 +45,7 @@ class Component:
         self.CalcPhase()
 
     def printf(self) -> str:
-        return "{} : I = {:.4} ({:.4}) A lacks by {:.4}π, V = {:.4} ({:.4}) V lacks by {:.4}π".format(
+        return "{} : I = {:.4} ({:.4}) Amp leads by {:.4}π, V = {:.4} ({:.4}) Volt leads by {:.4}π".format(
             self.getName(), self.current, abs(self.current), self.i_phase/math.pi, self.voltage, abs(self.voltage), self.v_phase/math.pi)
 
 

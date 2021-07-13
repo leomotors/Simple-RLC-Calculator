@@ -112,7 +112,7 @@ while True:
             if event.key == pg.K_RETURN:
                 MainCircuit.CalcImpedance()
                 MainCircuit.ApplyVoltage(Circuit_Voltage)
-                pyautogui.alert(text=MainCircuit.printf(),
+                pyautogui.alert(text=MainCircuit.printf() + "*Phase is referenced from input voltage",
                                 title="Circuit Calculation Result")
 
     for button in buttons:
