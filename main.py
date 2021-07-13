@@ -9,6 +9,8 @@ import pyautogui
 import math
 import sys
 
+# * Initialization
+
 pg.init()
 
 SCREENRES = (800, 600)
@@ -36,6 +38,7 @@ isParallel = Toggle(False, "Parallel Mode", (280, 560))
 
 MainCircuit = SeriesCircuit()
 
+# * Initialize Circuit Voltage and Angular Speed
 try:
     Circuit_Voltage: float = float(pyautogui.prompt(
         text="Enter Voltage (rms): ", title="Circuit Setup", default=""))
@@ -60,6 +63,7 @@ except:
     pg.quit()
     sys.exit()
 
+# * The boi who take care of displaying circuit voltage info on screen 24/7
 Circuit_Input_Information = Text((160, 470), screen)
 Circuit_Input_Information.SetFont(font)
 Circuit_Input_Information.SetText(
@@ -83,11 +87,19 @@ def addComponent(ComponentType: type):
             temp.resistance = float(pyautogui.prompt(
                 text="Enter Resistance: ", title="Add Resistor", default=""))
         elif ComponentType is Inductor:
-            temp.inductance = float(pyautogui.prompt(
-                text="Enter Inductance: ", title="Add Inductor", default=""))
+            if pyautogui.confirm(title="Add Inductor", text="Please Select Input Method", buttons=["Inductance", "Reactance"]) == "Inductance":
+                temp.inductance = float(pyautogui.prompt(
+                    text="Enter Inductance: ", title="Add Inductor", default=""))
+            else:
+                temp.inductance = float(pyautogui.prompt(
+                    text="Enter Reactance: ", title="Add Inductor", default="")) / Circuit_ω
         elif ComponentType is Capacitor:
-            temp.capacitance = float(pyautogui.prompt(
-                text="Enter Capacitance: ", title="Add Capacitor", default=""))
+            if pyautogui.confirm(title="Add Capacitor", text="Please Select Input Method", buttons=["Capacitance", "Reactance"]) == "Capacitance":
+                temp.capacitance = float(pyautogui.prompt(
+                    text="Enter Capacitance: ", title="Add Capacitor", default=""))
+            else:
+                temp.capacitance = 1 / float(pyautogui.prompt(
+                    text="Enter Capacitance: ", title="Add Capacitor", default="")) / Circuit_ω
     except:
         pass
     else:

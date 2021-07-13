@@ -91,7 +91,7 @@ class Inductor(Component):
         self.impedance = (self.inductance * ω) * 1j
 
     def getName(self) -> str:
-        return "Inductor {} H ({:.4} Ω)".format(self.inductance, abs(self.impedance))
+        return "Inductor {:.4} H ({:.4} Ω)".format(self.inductance, abs(self.impedance))
 
 
 class Capacitor(Component):
@@ -109,4 +109,4 @@ class Capacitor(Component):
             self.impedance = math.inf * -1j
 
     def getName(self) -> str:
-        return "Capacitor {} F ({:.4} Ω)".format(self.capacitance, abs(self.impedance))
+        return "Capacitor {:.4} F ({:.4} Ω)".format(self.capacitance, abs(self.impedance))
