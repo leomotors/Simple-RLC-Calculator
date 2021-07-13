@@ -14,11 +14,15 @@ class Circuit:
     def CalcPhase(self):
         if self.voltage.real == 0:
             self.v_phase = math.pi/2 if self.voltage.imag > 0 else -math.pi/2
+        elif self.voltage.imag == 0:
+            self.v_phase = 0
         else:
             self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
 
         if self.current.real == 0:
             self.i_phase = math.pi/2 if self.current.imag > 0 else -math.pi/2
+        elif self.current.imag == 0:
+            self.i_phase = 0
         else:
             self.i_phase = math.atan(self.current.imag / self.current.real)
 
