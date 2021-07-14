@@ -20,6 +20,7 @@ class Component:
         self.v_phase = None
         self.i_phase = None
         self.txtSprite = None
+        self.txtOffset = 0
 
     def CalcPhase(self):
         if self.voltage.real == 0:
@@ -36,12 +37,11 @@ class Component:
         else:
             self.i_phase = math.atan(self.current.imag / self.current.real)
 
-    def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float, y_pos: float = 200):
+    def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float, y_pos: float = 150):
         screen.blit(self.pic, (x_pos, y_pos + self.y_offset))
         if self.txtSprite is None:
-            self.txtSprite = font.render(self.getName(), True, (0, 0, 0))
-        screen.blit(self.txtSprite, (x_pos - 4 *
-                                     len(self.getName()) + 70, y_pos + 80))
+            self.txtSprite = font.render(self.getShortName(), True, (0, 0, 0))
+        screen.blit(self.txtSprite, (x_pos + 30, y_pos + 70 + self.txtOffset))
 
     def ApplyCurrent(self, current):
         self.current = current
@@ -76,12 +76,16 @@ class Resistor(Component):
         self.resistance = None
         self.impedance: complex = None
         self.pic: pg.Surface = resistor
+        self.txtOffset = -5
 
     def CalcImpedance(self, _):
         self.impedance = self.resistance
 
     def getName(self) -> str:
         return "Resistor {} Ω".format(self.resistance)
+
+    def getShortName(self) -> str:
+        return "{} Ω".format(self.resistance)
 
 
 class Inductor(Component):
@@ -91,12 +95,16 @@ class Inductor(Component):
         self.impedance: complex = None
         self.pic: pg.Surface = inductor
         self.y_offset = 15
+        self.txtOffset = 5
 
     def CalcImpedance(self, ω):
         self.impedance = (self.inductance * ω) * 1j
 
     def getName(self) -> str:
         return "Inductor {:.4} H ({:.4} Ω)".format(self.inductance, abs(self.impedance))
+
+    def getShortName(self) -> str:
+        return "{:.4} H".format(self.inductance)
 
 
 class Capacitor(Component):
@@ -106,6 +114,7 @@ class Capacitor(Component):
         self.impedance: complex = None
         self.pic: pg.Surface = capacitor
         self.y_offset = -5
+        self.txtOffset = 5
 
     def CalcImpedance(self, ω):
         try:
@@ -115,3 +124,6 @@ class Capacitor(Component):
 
     def getName(self) -> str:
         return "Capacitor {:.4} F ({:.4} Ω)".format(self.capacitance, abs(self.impedance))
+
+    def getShortName(self) -> str:
+        return "{:.4} C".format(self.capacitance)

@@ -29,6 +29,9 @@ setfps = pg.time.Clock()
 
 font = pg.font.Font("assets/fonts/Prompt-Regular.ttf", FONT_SIZE)
 
+
+PopUp = PopUpMessages(screen, font, (300, 10))
+
 addR = Button((150, 510), (100, 40), screen, True)
 addR.SetText("Add R")
 addL = Button((350, 510), (100, 40), screen, True)
@@ -97,21 +100,30 @@ def addComponent(ComponentType: type):
             temp.resistance = float(pyautogui.prompt(
                 text="Enter Resistance: ", title="Add Resistor", default=""))
         elif ComponentType is Inductor:
-            if pyautogui.confirm(title="Add Inductor", text="Please Select Input Method", buttons=["Inductance", "Reactance"]) == "Inductance":
+            input_method = pyautogui.confirm(
+                title="Add Inductor", text="Please Select Input Method", buttons=["Inductance", "Reactance"])
+            if input_method == "Inductance":
                 temp.inductance = float(pyautogui.prompt(
                     text="Enter Inductance: ", title="Add Inductor", default=""))
-            else:
+            elif input_method == "Reactance":
                 temp.inductance = float(pyautogui.prompt(
                     text="Enter Reactance: ", title="Add Inductor", default="")) / Circuit_ω
+            else:
+                raise KeyboardInterrupt
         elif ComponentType is Capacitor:
-            if pyautogui.confirm(title="Add Capacitor", text="Please Select Input Method", buttons=["Capacitance", "Reactance"]) == "Capacitance":
+            input_method = pyautogui.confirm(
+                title="Add Capacitor", text="Please Select Input Method", buttons=["Capacitance", "Reactance"])
+            if input_method == "Capacitance":
                 temp.capacitance = float(pyautogui.prompt(
                     text="Enter Capacitance: ", title="Add Capacitor", default=""))
-            else:
+            elif input_method == "Reactance":
                 temp.capacitance = 1 / float(pyautogui.prompt(
                     text="Enter Reactance: ", title="Add Capacitor", default="")) / Circuit_ω
+            else:
+                raise KeyboardInterrupt
     except:
-        pass
+        PopUp.ShowText(
+            "Adding Component aborted because exception is raised", 150)
     else:
         temp.CalcImpedance(Circuit_ω)
         if isParallel.data():
@@ -173,6 +185,7 @@ while True:
     MainCircuit.drawComponent(screen, font)
     Circuit_Input_Information.show()
     isParallel.update(screen)
+    PopUp.update()
 
     pg.display.flip()
     setfps.tick(TICK_RATE)

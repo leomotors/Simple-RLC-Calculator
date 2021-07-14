@@ -70,15 +70,15 @@ class ParallelCircuit(Circuit):
 
     def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float):
         y_offset = 0
-        y_start = 200 - 30 * len(self.components) + 20
+        y_start = 150 - 30 * len(self.components) + 20
 
         for c in self.components:
             c.drawComponent(screen, font,  x_pos, y_start + y_offset)
-            y_offset += 70
+            y_offset += 85
         pg.draw.rect(screen, (0, 0, 0),
-                     ((x_pos, y_start + 45) + (5, y_offset - 70)))
+                     ((x_pos, y_start + 45) + (5, y_offset - 85)))
         pg.draw.rect(screen, (0, 0, 0),
-                     ((x_pos + 120, y_start + 45) + (5, y_offset - 70)))
+                     ((x_pos + 120, y_start + 45) + (5, y_offset - 85)))
 
     def ApplyCurrent(self, current: complex):
         Component.ApplyCurrent(self, current)

@@ -55,3 +55,26 @@ class Text(Sprite):
 
         txtSprite = self.font.render(self.text, True, (0, 0, 0))
         self.screen.blit(txtSprite, self.position)
+
+
+class PopUpMessages():
+    def __init__(self, screen: pg.Surface, font: pg.font.Font, dest: tuple[int]):
+        self.screen: pg.Surface = screen
+        self.font: pg.font.Font = font
+        self.dest = dest
+        self.txt_sprite = None
+        self.txt_len = 0
+        self.showTime = None
+
+    def ShowText(self, txt: str, showTime: int = 75):
+        self.txt_sprite = self.font.render(txt, True, (0, 0, 0))
+        self.txt_len = len(txt)
+        self.showTime = showTime
+
+    def update(self):
+        if self.txt_sprite is not None:
+            self.screen.blit(
+                self.txt_sprite, (self.dest[0] - self.txt_len * 3, self.dest[1]))
+            self.showTime -= 1
+            if self.showTime <= 0:
+                self.txt_sprite = None
