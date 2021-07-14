@@ -170,7 +170,7 @@ while True:
     for button in buttons:
         button.show()
 
-    MainCircuit.drawComponent(screen)
+    MainCircuit.drawComponent(screen, font)
     Circuit_Input_Information.show()
     isParallel.update(screen)
 
