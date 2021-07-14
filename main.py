@@ -21,7 +21,7 @@ programIcon = pg.image.load("assets/images/Diode.png")
 programIcon = pg.transform.scale(programIcon, (256, 256))
 
 pg.display.set_icon(programIcon)
-pg.display.set_caption("Simple RLC Calculator 1.0 Pre-Release")
+pg.display.set_caption("Simple RLC Calculator 1.0 Release Candidate")
 
 screen = pg.display.set_mode(SCREENRES)
 
@@ -48,41 +48,53 @@ isParallel = Toggle(False, "Parallel Mode", (280, 560))
 MainCircuit = SeriesCircuit()
 
 # * Initialize Circuit Voltage and Angular Speed
-try:
-    temp_cv_input = pyautogui.prompt(
-        text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup", default="")
-    if 'M' in temp_cv_input:
-        Circuit_Voltage: float = float(temp_cv_input[:-1]) / math.sqrt(2)
-    else:
-        Circuit_Voltage: float = float(temp_cv_input)
+Circuit_Voltage = None
+Circuit_ω = None
 
-    Circuit_f_Input = pyautogui.prompt(
-        text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency, no prefix allowed)", title="Circuit Setup", default="")
-
-    if Circuit_Voltage is None or Circuit_f_Input is None:
-        raise TypeError
-
-    Circuit_ω = 0
-    if "Hz" in Circuit_f_Input:
-        Circuit_ω = 2 * math.pi * float(Circuit_f_Input[:-2].split(" ")[0])
-    else:
-        Circuit_ω = float(Circuit_f_Input)
-
-except:
-    sys.stdout.write("\a")
-    sys.stdout.flush()
-    pyautogui.alert(
-        text="Exception Raised, please make sure the input is correct", title="Error")
-    pg.quit()
-    sys.exit()
-
-# * The boi who take care of displaying circuit voltage info on screen 24/7
 Circuit_Input_Information = Text((105, 470), screen)
 Circuit_Input_Information.SetFont(font)
-Circuit_Input_Information.SetText(
-    "Circuit Voltage : {:.4} V rms ({:.4} V Peak) @ {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage, Circuit_Voltage * math.sqrt(2), Circuit_ω/2/math.pi, Circuit_ω))
 
 newParallel = False
+
+
+def init_Circuit():
+    global Circuit_Voltage
+    global Circuit_ω
+    try:
+        temp_cv_input = pyautogui.prompt(
+            text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup",   default="")
+        if 'M' in temp_cv_input:
+            Circuit_Voltage = float(temp_cv_input[:-1]) / math.sqrt(2)
+        else:
+            Circuit_Voltage = float(temp_cv_input)
+
+        Circuit_f_Input = pyautogui.prompt(
+            text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency, no prefix allowed)",   title="Circuit Setup", default="")
+
+        if Circuit_Voltage is None or Circuit_f_Input is None:
+            raise TypeError
+
+        Circuit_ω = 0
+        if "Hz" in Circuit_f_Input:
+            Circuit_ω = 2 * math.pi * float(Circuit_f_Input[:-2].split(" ")[0])
+        else:
+            Circuit_ω = float(Circuit_f_Input)
+
+    except:
+        sys.stdout.write("\a")
+        sys.stdout.flush()
+        pyautogui.alert(
+            text="Exception Raised, please make sure the input is correct", title="Error")
+        pg.quit()
+        sys.exit()
+
+    else:
+        Circuit_Input_Information.SetText(
+            "Circuit Voltage : {:.4} V rms ({:.4} V Peak) @ {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage,     Circuit_Voltage * math.sqrt(2), Circuit_ω/2/math.pi, Circuit_ω))
+        newParallel = False
+
+
+init_Circuit()
 
 
 def CollapseLastParallelIfItIs():
@@ -178,6 +190,18 @@ while True:
                 except:
                     pyautogui.alert(text="Exception raised during calculation, Circuit might not be valid",
                                     title="Error")
+            elif event.key == pg.K_s:
+                user_choice = pyautogui.confirm(text="Do you wish to reset the circuit?", title="Reset Circuit", buttons=[
+                    "Reset All", "Reset only Components", "Cancel"])
+                if user_choice == "Reset All":
+                    init_Circuit()
+                    del MainCircuit
+                    MainCircuit = SeriesCircuit()
+                elif user_choice == "Reset only Components":
+                    del MainCircuit
+                    MainCircuit = SeriesCircuit()
+                else:
+                    pass
 
     for button in buttons:
         button.show()

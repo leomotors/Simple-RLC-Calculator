@@ -9,6 +9,10 @@ Given a simple circuit consisting R, L, C and Voltage across all components.
 This program will be able to calculate current passing through each component
 and voltage across it.
 
+## ⚠️ Disclaimer
+
+This program's algorithm is not perfect, it can still give wrong calculation on some situation.
+
 ## ⚙️ Dependencies to Run
 
 Requires Python, Run main.py to start program.
