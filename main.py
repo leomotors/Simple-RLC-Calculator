@@ -5,6 +5,9 @@ from classes.Circuit import *
 from classes.Component import *
 
 import pyautogui
+import pymsgbox
+
+pymsgbox.rootWindowPosition = "+750+300"
 
 import math
 import sys
@@ -60,6 +63,7 @@ newParallel = False
 def init_Circuit():
     global Circuit_Voltage
     global Circuit_ω
+    global newParallel
     try:
         temp_cv_input = pyautogui.prompt(
             text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup",   default="")
@@ -90,7 +94,7 @@ def init_Circuit():
 
     else:
         Circuit_Input_Information.SetText(
-            "Circuit Voltage : {:.4} V rms ({:.4} V Peak) @ {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage,     Circuit_Voltage * math.sqrt(2), Circuit_ω/2/math.pi, Circuit_ω))
+            "Circuit Voltage : {:.4} V rms ({:.4} V Peak) @ {:.4} Hz ({:.4} rad/s)".format(Circuit_Voltage, Circuit_Voltage * math.sqrt(2), Circuit_ω/2/math.pi, Circuit_ω))
         newParallel = False
 
 

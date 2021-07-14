@@ -38,12 +38,12 @@ class SeriesCircuit(Circuit):
         for c in self.components:
             c.ApplyCurrent(self.current)
 
-    def printf(self, _=None, __=None, ___=None, indent_level: int = 0) -> str:
+    def printf(self, _=None, __=None, ___=None, indent_level: int = 0, _ind: int = 0) -> str:
         thicc_txt = "Series Circuit with current of {}, total voltage is {}, total impedance is {}, and it's components are\n\n".format(
             self.printAmp(), self.printVolt(), self.printImp())
 
         for ind, c in enumerate(self.components):
-            thicc_txt += c.printf(False, True, True, indent_level + 1)
+            thicc_txt += c.printf(False, True, True, indent_level + 1, ind+1)
             thicc_txt += "\n\n"
         return thicc_txt
 
@@ -85,11 +85,11 @@ class ParallelCircuit(Circuit):
         for c in self.components:
             c.ApplyVoltage(self.voltage)
 
-    def printf(self, _, __, ___, indent_level: int = 1) -> str:
-        thicc_txt = "{}• Parallel Circuit with total current of {}, voltage across it is {}, total impedance is {}, and it's components are\n\n".format(
-            "  " * (indent_level - 1), self.printAmp(), self.printVolt(), self.printImp())
+    def printf(self, _, __, ___, indent_level: int, index: int) -> str:
+        thicc_txt = "{}{}) Parallel Circuit with total current of {}, voltage across it is {}, total impedance is {}, and it's components are\n\n".format(
+            "  " * (indent_level - 1), index, self.printAmp(), self.printVolt(), self.printImp())
 
-        for c in self.components:
-            thicc_txt += c.printf(True, False, True, indent_level + 1)
+        for ind, c in enumerate(self.components):
+            thicc_txt += c.printf(True, False, True, indent_level + 1, ind + 1)
             thicc_txt += "\n"
         return thicc_txt

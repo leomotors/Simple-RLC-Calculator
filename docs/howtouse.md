@@ -11,3 +11,4 @@
 * C: Add Capacitor
 * Space Bar: Create Parallel Circuit
 * Enter: Run the Calculation
+* S: Reset Circuit
