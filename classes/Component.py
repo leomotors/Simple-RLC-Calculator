@@ -1,6 +1,7 @@
 import pygame as pg
 
 import math
+import cmath
 
 resistor = pg.image.load("assets/images/Resistor.png")
 resistor = pg.transform.scale(resistor, (120, 90))
@@ -23,19 +24,8 @@ class Component:
         self.txtOffset = 0
 
     def CalcPhase(self):
-        if self.voltage.real == 0:
-            self.v_phase = math.pi/2 if self.voltage.imag > 0 else -math.pi/2
-        elif self.voltage.imag == 0:
-            self.v_phase = 0
-        else:
-            self.v_phase = math.atan(self.voltage.imag / self.voltage.real)
-
-        if self.current.real == 0:
-            self.i_phase = math.pi/2 if self.current.imag > 0 else -math.pi/2
-        elif self.current.imag == 0:
-            self.i_phase = 0
-        else:
-            self.i_phase = math.atan(self.current.imag / self.current.real)
+        self.v_phase = cmath.phase(self.voltage)
+        self.i_phase = cmath.phase(self.current)
 
     def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float, y_pos: float = 150):
         screen.blit(self.pic, (x_pos, y_pos + self.y_offset))
