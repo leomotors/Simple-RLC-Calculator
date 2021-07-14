@@ -55,9 +55,12 @@ class Component:
     def printImp(self) -> str:
         return "{:.4} ({:.4}) Ω".format(self.impedance, abs(self.impedance))
 
-    def printf(self, printI: bool, printV: bool, indent_level: int = 1) -> str:
-        return "{}• {} :{}{}{}".format(
-            "  " * (indent_level-1), self.getName(), " I = {}".format(self.printAmp()) if printI else "", "," if printI and printV else "", " V = {}".format(self.printVolt()) if printV else "")
+    def printPower(self) -> str:
+        return "{:.4} VA".format(self.voltage * self.current)
+
+    def printf(self, printI: bool, printV: bool, printP: bool, indent_level: int = 1) -> str:
+        return "{}• {} :\n{}{}{}".format(
+            "  " * (indent_level-1), self.getName(), " I = {}\n".format(self.printAmp()) if printI else "", " V = {}\n".format(self.printVolt()) if printV else "", " P = {}\n".format(self.printPower()) if printP else "")
 
 
 class Resistor(Component):
