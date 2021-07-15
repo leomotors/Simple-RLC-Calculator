@@ -29,7 +29,7 @@ class Component:
         self.v_phase = cmath.phase(self.voltage)
         self.i_phase = cmath.phase(self.current)
 
-    def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float, y_pos: float = 150):
+    def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float, y_pos: float = 185):
         screen.blit(self.pic, (x_pos, y_pos + self.y_offset))
         if self.txtSprite is None:
             self.txtSprite = font.render(self.getShortName(), True, (0, 0, 0))

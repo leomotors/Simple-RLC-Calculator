@@ -70,7 +70,7 @@ class ParallelCircuit(Circuit):
 
     def drawComponent(self, screen: pg.Surface, font: pg.font.Font, x_pos: float):
         y_offset = 0
-        y_start = 150 - 30 * len(self.components) + 20
+        y_start = 185 - 35 * len(self.components) + 20
 
         for c in self.components:
             c.drawComponent(screen, font,  x_pos, y_start + y_offset)

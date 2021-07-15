@@ -33,20 +33,20 @@ setfps = pg.time.Clock()
 font = pg.font.Font("assets/fonts/Prompt-Regular.ttf", FONT_SIZE)
 
 
-PopUp = PopUpMessages(screen, font, (300, 10))
+PopUp = PopUpMessages(screen, font, (300, 40))
 
-addR = Button((150, 510), (100, 40), screen, True)
+addR = Button((150, 540), (100, 40), screen, True)
 addR.SetText("Add R")
-addL = Button((350, 510), (100, 40), screen, True)
+addL = Button((350, 540), (100, 40), screen, True)
 addL.SetText("Add L")
-addC = Button((550, 510), (100, 40), screen, True)
+addC = Button((550, 540), (100, 40), screen, True)
 addC.SetText("Add C")
 
 buttons = [addR, addL, addC]
 for button in buttons:
     button.SetFont(font)
 
-isParallel = Toggle(False, "Parallel Mode", (280, 560))
+isParallel = Toggle(False, "Parallel Mode", (240, 10))
 
 MainCircuit = SeriesCircuit()
 
@@ -54,7 +54,7 @@ MainCircuit = SeriesCircuit()
 Circuit_Voltage = None
 Circuit_ω = None
 
-Circuit_Input_Information = Text((105, 470), screen)
+Circuit_Input_Information = Text((105, 500), screen)
 Circuit_Input_Information.SetFont(font)
 
 newParallel = False

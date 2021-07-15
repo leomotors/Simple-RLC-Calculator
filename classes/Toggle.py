@@ -13,7 +13,7 @@ class Toggle:
         self.internal_data = not self.internal_data
         if screen is not None:
             self.toShow = font.render(
-                "Creating Parallel Circuit..." if self.internal_data else "Done Creating Parallel Circuit", True, (0, 0, 0))
+                "Parallel Circuit Open: Please add RLC" if self.internal_data else "Parallel Circuit Closed: Creation Done", True, (0, 0, 0))
             self.showTime = 75
 
     def update(self, screen: pg.Surface):
