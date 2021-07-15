@@ -24,7 +24,7 @@ programIcon = pg.image.load("assets/images/Diode.png")
 programIcon = pg.transform.scale(programIcon, (256, 256))
 
 pg.display.set_icon(programIcon)
-pg.display.set_caption("Simple RLC Calculator 1.0 Release Candidate")
+pg.display.set_caption("Simple RLC Calculator 1.0")
 
 screen = pg.display.set_mode(SCREENRES)
 
@@ -32,6 +32,13 @@ setfps = pg.time.Clock()
 
 font = pg.font.Font("assets/fonts/Prompt-Regular.ttf", FONT_SIZE)
 
+HowToUse = None
+try:
+    with open("./docs/howtouse.md", "r") as howtouse_file:
+        HowToUse = "https://github.com/Leomotors/Simple-RLC-Calculator/blob/main/docs/howtouse.md\n\n" + \
+            howtouse_file.read()
+except:
+    print("[IMPORT ERROR] Failed to import howtouse.md")
 
 PopUp = PopUpMessages(screen, font, (300, 40))
 
@@ -206,6 +213,12 @@ def LoopCircuit():
                     MainCircuit = SeriesCircuit()
                 else:
                     pass
+            elif event.key == pg.K_h:
+                if HowToUse is not None:
+                    pyautogui.alert(text=HowToUse, title="Help: How to Use")
+                else:
+                    pyautogui.alert(
+                        text="Can't open How to Use because howtouse.md is not loaded", title="Error")
 
     for button in buttons:
         button.show()
