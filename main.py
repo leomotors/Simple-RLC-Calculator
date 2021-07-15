@@ -154,9 +154,9 @@ def addComponent(ComponentType: type):
             MainCircuit.components.append(temp)
 
 
-while True:
-    screen.fill((255, 255, 255))
-
+def LoopCircuit():
+    global newParallel
+    global MainCircuit
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
@@ -215,5 +215,13 @@ while True:
     isParallel.update(screen)
     PopUp.update()
 
+
+def LoopScreen(func):
+    screen.fill((255, 255, 255))
+    func()
     pg.display.flip()
     setfps.tick(TICK_RATE)
+
+
+while True:
+    LoopScreen(LoopCircuit)
