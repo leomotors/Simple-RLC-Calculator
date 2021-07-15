@@ -1,3 +1,5 @@
+import sys
+import math
 import pygame as pg
 from classes.Sprite import *
 from classes.Toggle import Toggle
@@ -9,8 +11,6 @@ import pymsgbox
 
 pymsgbox.rootWindowPosition = "+750+300"
 
-import math
-import sys
 
 # * Initialization
 
@@ -66,14 +66,14 @@ def init_Circuit():
     global newParallel
     try:
         temp_cv_input = pyautogui.prompt(
-            text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup",   default="")
+            text="Enter Voltage (Default: rms, add 'M' to mark as max): ", title="Circuit Setup", default="")
         if 'M' in temp_cv_input:
             Circuit_Voltage = float(temp_cv_input[:-1]) / math.sqrt(2)
         else:
             Circuit_Voltage = float(temp_cv_input)
 
         Circuit_f_Input = pyautogui.prompt(
-            text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency, no prefix allowed)",   title="Circuit Setup", default="")
+            text="Enter Circuit Frequency or ω (Put 'Hz' if it is frequency, no prefix allowed)", title="Circuit Setup", default="")
 
         if Circuit_Voltage is None or Circuit_f_Input is None:
             raise TypeError

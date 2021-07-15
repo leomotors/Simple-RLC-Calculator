@@ -56,7 +56,7 @@ class Component:
         return "{:.4} ({:.4}) Ω".format(self.impedance, abs(self.impedance))
 
     def printPower(self) -> str:
-        return "{:.4} VA".format(self.voltage * self.current)
+        return "{:.4} VA".format(self.voltage * self.current.conjugate())
 
     def printf(self, printI: bool, printV: bool, printP: bool, indent_level: int, index: int) -> str:
         indent = " " * (indent_level - 1) if indent_level >= 1 else ""
